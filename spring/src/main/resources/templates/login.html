@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인 페이지</title>
+</head>
+<body>
+<form action="/login" method="post">
+  <input type="text" name="name" placeholder="아이디">
+  <input type="password" name="password" placeholder="비밀번호">
+  <button type="submit">제출</button>
+</form>
+<!--<a href="/oauth2/authorization/google">Google 로그인</a>-->
+<!--<a href="/oauth2/authorization/facebook">Facebook 로그인</a>-->
+<!--<a href="/oauth2/authorization/naver">Naver 로그인</a> <br>-->
+<a href="/oauth2/authorization/kakao">
+  <img src="/kakao_login_medium_narrow.png" alt="Kakao 로그인">
+</a> <br>
+<a href="/joinForm">회원가입</a>
+<div th:if="${param.error}">
+<p style="color: red;">로그인에 실패했습니다. 다시 시도해 주세요.</p>
+</div>
+</body>
+</html>

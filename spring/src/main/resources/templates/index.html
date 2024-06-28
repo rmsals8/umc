@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management</title>
+</head>
+<body>
+<h1>도서 관리</h1>
+
+<h2>모든 도서 목록 조회</h2>
+<form action="/books" method="get">
+    <button type="submit">조회</button>
+</form>
+
+<h2>도서 추가</h2>
+<form id="addBookForm">
+    <label for="id">ID:</label>
+    <input type="number" id="id" name="id" required><br>
+    <label for="name">도서명:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="author">저자:</label>
+    <input type="text" id="author" name="author" required><br>
+    <label for="price">가격:</label>
+    <input type="number" id="price" name="price" required><br>
+    <button type="button" onclick="addBook()">추가</button>
+</form>
+
+<h2>도서 수정</h2>
+<form id="updateBookForm">
+    <label for="updateId">ID:</label>
+    <input type="number" id="updateId" name="id" required><br>
+    <label for="updateName">도서명:</label>
+    <input type="text" id="updateName" name="name"><br>
+    <label for="updateAuthor">저자:</label>
+    <input type="text" id="updateAuthor" name="author"><br>
+    <label for="updatePrice">가격:</label>
+    <input type="number" id="updatePrice" name="price"><br>
+    <button type="button" onclick="updateBook()">수정</button>
+</form>
+
+<h2>도서 삭제</h2>
+<form id="deleteBookForm">
+    <label for="deleteId">ID:</label>
+    <input type="number" id="deleteId" name="id" required><br>
+    <button type="button" onclick="deleteBook()">삭제</button>
+</form>
+
+<script>
+    function addBook() {
+        const form = document.getElementById('addBookForm');
+        const book = {
+            id: form.id.value,
+            name: form.name.value,
+            author: form.author.value,
+            price: form.price.value
+        };
+
+        fetch('/books/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(book)
+        })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+    }
+
+    function updateBook() {
+        const form = document.getElementById('updateBookForm');
+        const id = form.updateId.value;
+        const book = {
+            name: form.updateName.value,
+            author: form.updateAuthor.value,
+            price: form.updatePrice.value
+        };
+
+        fetch(`/books/update/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(book)
+        })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+    }
+
+    function deleteBook() {
+        const form = document.getElementById('deleteBookForm');
+        const id = form.id.value;
+
+        fetch(`/books/delete/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>
